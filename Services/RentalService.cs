@@ -1,4 +1,5 @@
-﻿using APBD_TASK2.Interfaces;
+﻿using APBD_TASK2.Database;
+using APBD_TASK2.Interfaces;
 using APBD_TASK2.Models;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,28 @@ namespace APBD_TASK2.Services
 {
     public class RentalService : IRentalService
     {
+        private readonly Singleton _db = Singleton.Instance;
         public void AddEquipment(Equipment equipment)
         {
-            throw new NotImplementedException();
+            _db.Equipment.Add(equipment);
         }
 
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
-        }
-
-        public string GenerateReport()
-        {
-            throw new NotImplementedException();
+            _db.Users.Add(user);
         }
 
         public List<Equipment> GetAllAvailableEquipment()
         {
-            throw new NotImplementedException();
+            return _db.Equipment.Where(e => e.Status == Enum.EquipmentStatus.Available).ToList();
         }
 
         public List<Equipment> GetAllEquipment()
+        {
+            return _db.Equipment;
+        }
+
+        public string GenerateReport()
         {
             throw new NotImplementedException();
         }
