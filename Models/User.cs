@@ -18,7 +18,19 @@ namespace APBD_TASK2.Models
 
         public UserType Type { get; set; }
 
+        public User(string name, string surname, string email, UserType type)
+        {
+            Id = _nextId++;
+            Name = name;
+            Surname = surname;
+            Email = email;
+            Type = type;
+        }
+
 
 
     }
+
+
+
 }
