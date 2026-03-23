@@ -12,6 +12,7 @@ namespace APBD_TASK2.Interfaces
         void AddUser (User user);
         void AddEquipment(Equipment equipment);
         void RentEquipment(User user, Equipment equipment, int days);
+        double ReturnEquipment(Rental rental);
 
         List<Equipment> GetAllEquipment();
         List<Equipment> GetAllAvailableEquipment();

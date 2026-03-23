@@ -32,11 +32,24 @@ namespace APBD_TASK2.Services
 
             if (activeRentals >= limit)
             throw new Exception("User exceeded rental limit.");
-            
+
             var rental = new Rental(user, equipment, days);
             _db.Rentals.Add(rental);
             equipment.Status = Enum.EquipmentStatus.Unavailable;
         }
+
+        public double ReturnEquipment(Rental rental)
+        {
+            rental.Return();
+            rental.Equipment.Status = Enum.EquipmentStatus.Available;
+
+            if (rental.ReturnDate <= rental.DueDate)
+                return 0;
+
+            int lateDays = (rental.ReturnDate.Value - rental.DueDate).Days;
+            return lateDays * 5;
+        }
+
 
         public List<Equipment> GetAllAvailableEquipment()
         {
