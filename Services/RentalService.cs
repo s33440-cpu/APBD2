@@ -1,4 +1,5 @@
 ﻿using APBD_TASK2.Database;
+using APBD_TASK2.Enum;
 using APBD_TASK2.Interfaces;
 using APBD_TASK2.Models;
 using System;
@@ -20,6 +21,12 @@ namespace APBD_TASK2.Services
         public void AddUser(User user)
         {
             _db.Users.Add(user);
+        }
+
+        public void MarkUnavailable(int equipmentId)
+        {
+            var eq = _db.Equipment.First(e => e.Id == equipmentId);
+            eq.Status = EquipmentStatus.Unavailable;
         }
 
         public void RentEquipment(User user, Equipment equipment, int days)
@@ -59,6 +66,20 @@ namespace APBD_TASK2.Services
         public List<Equipment> GetAllEquipment()
         {
             return _db.Equipment;
+        }
+
+        public List<Rental> GetUserActiveRentals(User user)
+        {
+            return _db.Rentals
+            .Where(r => r.User == user && r.IsActive)
+            .ToList();
+        }
+
+        public List<Rental> GetOverdueRentals()
+        {
+            return _db.Rentals
+            .Where(r => r.IsOverdue)
+            .ToList();
         }
 
         public string GenerateReport()
