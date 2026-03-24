@@ -63,7 +63,25 @@ namespace APBD_TASK2.Services
 
         public string GenerateReport()
         {
-            throw new NotImplementedException();
+            var report = new StringBuilder();
+            report.AppendLine("EQUIPMENT");
+            foreach (var i in _db.Equipment)
+            {
+                report.AppendLine($"{i.Id} - {i.Name} - {i.Status}");
+            }
+
+            report.AppendLine("\nACTIVE RENTALS");
+            foreach (var i in _db.Rentals.Where(r => r.IsActive))
+            {
+                report.AppendLine($"{i.User.Name} -> {i.Equipment.Name} (due {i.DueDate})");
+            }
+
+            report.AppendLine("\nOVERDUE");
+            foreach (var i in _db.Rentals.Where(r => r.IsOverdue))
+            {
+                report.AppendLine($"{i.User.Name} -> {i.Equipment.Name}");
+            }
+            return report.ToString();
         }
     }
 }
